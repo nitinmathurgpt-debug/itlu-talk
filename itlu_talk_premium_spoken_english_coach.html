@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itlu Talk - Premium Spoken English Coach</title>
+    <!-- PWA Manifest -->
+  <link rel="manifest" href="data:application/manifest+json;utf-8,%7B%22name%22%3A%22Itlu%20Talk%22%2C%22short_name%22%3A%22ItluTalk%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23070a12%22%2C%22theme_color%22%3A%22%23070a12%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fapi.iconify.design%2Flucide%3Amic.svg%3Fcolor%3D%25236366f1%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+  <!-- PWA & Mobile Capabilities -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#090d16">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            slate: {
+              850: '#111827',
+              900: '#0b0f19',
+              950: '#070a12',
+            }
+          },
+          animation: {
+            'pulse-slow': 'pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'wave': 'wave 1.2s ease-in-out infinite',
+          },
+          keyframes: {
+            wave: {
+              '0%, 100%': { height: '8px' },
+              '50%': { height: '28px' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom sleek scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+    
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-input {
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .wave-bar {
+      width: 4px;
+      border-radius: 9999px;
+      background: #818cf8;
+      animation: wave 1s ease-in-out infinite;
+    }
+    .wave-bar:nth-child(1) { animation-delay: 0.1s; }
+    .wave-bar:nth-child(2) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.4s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.15s; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-[100dvh] w-full max-w-full overflow-x-hidden flex flex-col font-sans antialiased select-none selection:bg-brand-500 selection:text-white">
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none w-11/12 max-w-sm"></div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 glass-card border-b border-white/10 px-3 py-2.5 flex items-center justify-between gap-2 overflow-hidden">
+    <div class="flex items-center gap-3">
+      <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 text-white shadow-lg shadow-brand-500/25">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+        <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+      </div>
+      <div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <h1 class="text-base font-bold text-white tracking-tight">Itlu Talk</h1>
+          <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">Pro Coach</span>
+        </div>
+        <p class="text-xs text-slate-400 flex items-center gap-1.5">
+          <span id="activeScenarioLabel" class="text-slate-300 font-medium">Daily Chitchat</span>
+          <span>•</span>
+          <span id="activeLevelLabel" class="text-emerald-400">Intermediate</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-2">
+      <!-- Auto Voice Output Toggle -->
+      <button id="toggleAudioBtn" title="Toggle AI Auto-Speech" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-white/5">
+        <svg id="audioIconOn" class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+        <svg id="audioIconOff" class="w-5 h-5 text-slate-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+      </button>
+
+      <!-- Speed Selector Dropdown -->
+      <div class="relative shrink-0">
+        <select id="speedSelect" class="bg-slate-800/90 hover:bg-slate-700 text-[11px] text-slate-300 font-medium py-1.5 px-2 rounded-xl border border-white/10 focus:outline-none cursor-pointer">
+          <option value="0.8">0.8x</option>
+          <option value="1.0" selected>1.0x</option>
+          <option value="1.2">1.2x</option>
+        </select>
+      </div>
+
+      <!-- Settings Button -->
+      <button id="openSettingsBtn" class="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white transition border border-white/5" title="Settings & API Key">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Scenario & Practice Track Selector (Horizontal scrollable bar) -->
+  <div class="px-4 py-2.5 glass-card border-b border-white/5 overflow-x-auto flex items-center gap-2 no-scrollbar">
+    <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider shrink-0 pl-1 mr-1">Modes:</span>
+    <button data-scenario="daily" class="scenario-pill active-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-brand-600 text-white shadow-sm shadow-brand-500/20">
+      <span>💬</span> Casual Chitchat
+    </button>
+    <button data-scenario="interview" class="scenario-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+      <span>💼</span> Job Interview
+    </button>
+    <button data-scenario="cafe" class="scenario-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+      <span>☕</span> Cafe & Dining
+    </button>
+    <button data-scenario="office" class="scenario-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+      <span>📊</span> Office & Meeting
+    </button>
+    <button data-scenario="travel" class="scenario-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition">
+      <span>✈️</span> Airport & Travel
+    </button>
+  </div>
+
+  <!-- Main Chat Conversation View -->
+  <main id="chatStream" class="flex-1 overflow-y-auto p-4 space-y-4 max-w-2xl w-full mx-auto pb-44">
+    <!-- Initial Welcome Message from Coach -->
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white shrink-0 shadow-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <div class="flex-1 max-w-[85%]">
+        <div class="bg-slate-850 border border-white/10 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 shadow-sm leading-relaxed">
+          <p class="font-semibold text-brand-300 mb-1 flex items-center justify-between">
+            <span>Ritvi • AI Coach</span>
+            <span class="text-[10px] text-slate-400 font-normal">Active Tutor</span>
+          </p>
+          <p id="tutorGreeting">Hello there! I am your Itlu Talk personal English coach. Today we are doing a casual conversation. How was your day, and what did you do this morning?</p>
+          
+          <!-- Message Tools: Replay audio, Hindi translation -->
+          <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center gap-3 text-xs">
+            <button onclick="playText(document.getElementById('tutorGreeting').innerText)" class="flex items-center gap-1 text-slate-400 hover:text-brand-300 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Listen</span>
+            </button>
+            <button onclick="showHindiModal('Hello there! I am your Itlu Talk personal English coach. Today we are doing a casual conversation. How was your day, and what did you do this morning?', 'नमस्ते! मैं आपका Itlu Talk इंग्लिश कोच हूँ। आज हम कैज़ुअल बातचीत कर रहे हैं। आपका आज का दिन कैसा रहा और आज सुबह आपने क्या किया?')" class="flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+              <span>Hindi Meaning</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Floating Panel (Smart Hints + Hybrid Voice/Text Bar) -->
+  <div class="fixed bottom-0 inset-x-0 z-30 p-3 bg-gradient-to-t from-slate-950 via-slate-950/95 to-transparent">
+    <div class="max-w-2xl mx-auto space-y-2">
+
+      <!-- Smart Suggestions Lead Chips (What you can say next) -->
+      <div id="smartSuggestionsBox" class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <span class="text-[10px] uppercase font-bold text-slate-400 flex items-center gap-1 shrink-0 px-1">
+          <svg class="w-3 h-3 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8a4 4 0 01-2.383-7.218 4.02 4.02 0 014.766 0A4 4 0 0112 14z"/></svg>
+          Quick Hints:
+        </span>
+        <div id="hintChipsContainer" class="flex items-center gap-2">
+          <button class="hint-chip text-xs bg-slate-800/90 hover:bg-brand-600/30 hover:border-brand-500/50 text-slate-300 hover:text-white px-3 py-1 rounded-full border border-white/10 transition shrink-0 whitespace-nowrap">
+            "My day was great, I went to work."
+          </button>
+          <button class="hint-chip text-xs bg-slate-800/90 hover:bg-brand-600/30 hover:border-brand-500/50 text-slate-300 hover:text-white px-3 py-1 rounded-full border border-white/10 transition shrink-0 whitespace-nowrap">
+            "I had a busy morning with meetings."
+          </button>
+          <button class="hint-chip text-xs bg-slate-800/90 hover:bg-brand-600/30 hover:border-brand-500/50 text-slate-300 hover:text-white px-3 py-1 rounded-full border border-white/10 transition shrink-0 whitespace-nowrap">
+            "Nothing special, just relaxed at home."
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Voice Waveform Bar (When listening) -->
+      <div id="listeningIndicator" class="hidden glass-card rounded-xl px-4 py-2 flex items-center justify-between border-brand-500/40 shadow-lg shadow-brand-500/10">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1 h-6">
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+            <span class="wave-bar"></span>
+          </div>
+          <span class="text-xs font-medium text-brand-300">Listening to your English...</span>
+        </div>
+        <span id="speechInterimText" class="text-xs text-slate-400 italic truncate max-w-xs pl-2">Speak now...</span>
+        <button id="cancelRecordBtn" class="text-xs text-rose-400 hover:text-rose-300 font-medium ml-2 px-2 py-0.5 rounded bg-rose-500/10">Stop</button>
+      </div>
+
+      <!-- Main Hybrid Bar -->
+      <div class="glass-input rounded-2xl p-1.5 flex items-center gap-2 shadow-2xl border border-white/15">
+        <!-- Voice Mic Button (Big tactile button) -->
+        <button id="micBtn" class="relative group p-3 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 hover:from-brand-500 hover:to-indigo-400 text-white shadow-md shadow-brand-600/30 transition transform active:scale-95 shrink-0" title="Tap to Speak">
+          <svg id="micIconReady" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+          <svg id="micIconActive" class="w-5 h-5 hidden animate-pulse text-rose-200" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"/></svg>
+          <span id="micRing" class="absolute inset-0 rounded-xl bg-brand-400 opacity-0 group-hover:opacity-20 transition"></span>
+        </button>
+
+        <!-- Text Input (Type whenever voice is inconvenient) -->
+        <input id="chatInput" type="text" placeholder="Speak with mic, or type in English..." class="flex-1 bg-transparent px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none">
+
+        <!-- Send Button -->
+        <button id="sendBtn" class="p-2.5 rounded-xl bg-slate-800 hover:bg-brand-600 text-slate-300 hover:text-white transition shrink-0" title="Send message">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </div>
+
+      <div class="text-[11px] text-center text-slate-500">
+        100% Free Spoken English • Powered by Web Speech & Gemini AI
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings & API Key Modal -->
+  <div id="settingsModal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-2xl p-6 border border-white/10 shadow-2xl space-y-5 animate-in fade-in duration-200">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 rounded-lg bg-brand-500/20 text-brand-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/></svg>
+          </div>
+          <h2 class="text-base font-bold text-white">Coach Settings</h2>
+        </div>
+        <button id="closeSettingsBtn" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/5">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Settings Content -->
+      <div class="space-y-4 text-xs">
+        <!-- API Key Field -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="geminiApiKey" class="font-semibold text-slate-300">Google Gemini API Key (100% Free)</label>
+            <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="text-brand-400 hover:underline flex items-center gap-1 font-medium">Get Free Key &rarr;</a>
+          </div>
+          <input id="geminiApiKey" type="password" placeholder="AIzaSy..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-brand-500 text-xs">
+          <p class="text-[11px] text-slate-400 mt-1">Leave empty to use the built-in Smart Simulator without any key.</p>
+        </div>
+
+        <!-- Level Selector -->
+        <div>
+          <label for="learnerLevelSelect" class="font-semibold text-slate-300 block mb-1.5">Your English Speaking Level</label>
+          <select id="learnerLevelSelect" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-brand-500 text-xs cursor-pointer">
+            <option value="Beginner">Beginner (A1/A2) - Speaks in simple sentences</option>
+            <option value="Intermediate" selected>Intermediate (B1/B2) - Daily conversational fluency</option>
+            <option value="Advanced">Advanced (C1) - Professional and business English</option>
+          </select>
+        </div>
+
+        <!-- Voice Accent Selector -->
+        <div>
+          <label for="voiceAccentSelect" class="font-semibold text-slate-300 block mb-1.5">AI Voice Accent</label>
+          <select id="voiceAccentSelect" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2.5 text-slate-200 focus:outline-none focus:border-brand-500 text-xs cursor-pointer">
+            <option value="en-US">US Natural English (Clear & Modern)</option>
+            <option value="en-GB">British English (Polite & Standard)</option>
+            <option value="en-IN">Indian English (Familiar & Clear)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Footer Buttons -->
+      <div class="flex items-center justify-between pt-3 border-t border-white/10">
+        <button id="resetChatBtn" class="text-rose-400 hover:text-rose-300 font-medium text-xs flex items-center gap-1">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          Clear History
+        </button>
+        <button id="saveSettingsBtn" class="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-semibold text-xs shadow-md transition">
+          Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hindi Meaning Popover Modal -->
+  <div id="hindiModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-sm w-full rounded-2xl p-5 border border-white/15 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div class="flex items-center gap-2">
+          <span class="p-1 rounded bg-emerald-500/20 text-emerald-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+          </span>
+          <h3 class="text-sm font-bold text-white">Hindi Translation & Meaning</h3>
+        </div>
+        <button id="closeHindiModalBtn" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <span class="text-[10px] uppercase font-bold text-slate-400">Original English:</span>
+          <p id="modalOriginalEnglish" class="text-slate-200 mt-1 italic p-2.5 rounded-lg bg-slate-900 border border-white/5"></p>
+        </div>
+        <div>
+          <span class="text-[10px] uppercase font-bold text-emerald-400">Hindi Meaning:</span>
+          <p id="modalHindiMeaning" class="text-emerald-300 font-medium mt-1 p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/20"></p>
+        </div>
+      </div>
+
+      <button id="hindiModalCloseAction" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-xs transition">
+        Understood (Got it)
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // App State
+    const AppState = {
+      scenario: 'daily',
+      level: 'Intermediate',
+      autoSpeak: true,
+      speechSpeed: 1.0,
+      accent: 'en-US',
+      apiKey: '',
+      isListening: false,
+      history: []
+    };
+
+    // Scenario Initial Prompts & Data
+    const Scenarios = {
+      daily: {
+        title: 'Casual Chitchat',
+        lead: 'Hello there! How was your day, and what did you do this morning?',
+        hindi: 'नमस्ते! आपका दिन कैसा रहा और आज सुबह आपने क्या किया?',
+        suggestions: [
+          'My day was great, I went to work.',
+          'I had a busy morning with meetings.',
+          'Nothing special, just relaxed at home.'
+        ]
+      },
+      interview: {
+        title: 'Job Interview',
+        lead: 'Welcome to this interview! Could you please introduce yourself and tell me about your background?',
+        hindi: 'इंटरव्यू में आपका स्वागत है! क्या आप कृपया अपना परिचय दे सकते हैं और अपनी बैकग्राउंड बता सकते हैं?',
+        suggestions: [
+          'Sure! I have two years of work experience.',
+          'I recently graduated with a degree in science.',
+          'I specialize in customer support and teamwork.'
+        ]
+      },
+      cafe: {
+        title: 'Cafe & Dining',
+        lead: 'Welcome to Brew & Bake! What can I get started for you today?',
+        hindi: 'ब्रू एंड बेक में आपका स्वागत है! आज आपके लिए क्या लेकर आऊँ?',
+        suggestions: [
+          'Can I get an iced Americano, please?',
+          'Do you have any dairy-free milk options?',
+          'What pastries do you recommend today?'
+        ]
+      },
+      office: {
+        title: 'Office & Meeting',
+        lead: 'Good morning team. Let\'s quickly review the progress on our quarterly milestones. Any updates?',
+        hindi: 'गुड मॉर्निंग टीम। चलिए तिमाही लक्ष्यों की प्रगति की समीक्षा करते हैं। कोई अपडेट?',
+        suggestions: [
+          'We completed the draft report yesterday.',
+          'I need some assistance with the client presentation.',
+          'Everything is on track for Friday\'s release.'
+        ]
+      },
+      travel: {
+        title: 'Airport & Travel',
+        lead: 'Passport and boarding pass, please. What is the main purpose of your visit today?',
+        hindi: 'पासपोर्ट और बोर्डिंग पास दिखाइए। आपकी यात्रा का मुख्य उद्देश्य क्या है?',
+        suggestions: [
+          'I am here for a short vacation.',
+          'I am traveling for a business conference.',
+          'I will be staying here for five days.'
+        ]
+      }
+    };
+
+    // Load saved settings from LocalStorage safely
+    function loadSavedSettings() {
+      try {
+        const key = localStorage.getItem('talkflow_gemini_key');
+        if (key) AppState.apiKey = key;
+        const savedLevel = localStorage.getItem('talkflow_level');
+        if (savedLevel) AppState.level = savedLevel;
+        const savedAccent = localStorage.getItem('talkflow_accent');
+        if (savedAccent) AppState.accent = savedAccent;
+        const savedSpeed = localStorage.getItem('talkflow_speed');
+        if (savedSpeed) AppState.speechSpeed = parseFloat(savedSpeed);
+        
+        // Update DOM elements
+        const keyInput = document.getElementById('geminiApiKey');
+        if (keyInput) keyInput.value = AppState.apiKey;
+        const lvlSelect = document.getElementById('learnerLevelSelect');
+        if (lvlSelect) lvlSelect.value = AppState.level;
+        const accSelect = document.getElementById('voiceAccentSelect');
+        if (accSelect) accSelect.value = AppState.accent;
+        const spdSelect = document.getElementById('speedSelect');
+        if (spdSelect) spdSelect.value = AppState.speechSpeed.toString();
+        
+        const lvlLabel = document.getElementById('activeLevelLabel');
+        if (lvlLabel) lvlLabel.textContent = AppState.level;
+      } catch (e) {
+        console.warn('Storage unavailable:', e);
+      }
+    }
+
+    // Toast UI helper (replaces alert)
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      const isSuccess = type === 'success';
+      const isError = type === 'error';
+      
+      const bg = isSuccess ? 'bg-emerald-600/90' : isError ? 'bg-rose-600/90' : 'bg-slate-800/90';
+      toast.className = `${bg} backdrop-blur-md text-white text-xs px-4 py-2.5 rounded-xl shadow-lg border border-white/10 flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-2`;
+      
+      const icon = isSuccess ? '✓' : isError ? '✕' : 'ℹ';
+      toast.innerHTML = `<span class="font-bold">${icon}</span><span>${message}</span>`;
+      container.appendChild(toast);
+      
+      requestAnimationFrame(() => {
+        toast.classList.remove('opacity-0', 'translate-y-2');
+      });
+      
+      setTimeout(() => {
+        toast.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Text to Speech Synthesizer
+    function playText(text) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Text-to-speech not supported in this browser.', 'error');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = AppState.speechSpeed;
+      utterance.lang = AppState.accent || 'en-US';
+      
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        const preferred = voices.find(v => v.lang.startsWith(AppState.accent.slice(0, 2)) && v.name.includes('Natural')) ||
+                          voices.find(v => v.lang.startsWith(AppState.accent.slice(0, 2))) ||
+                          voices[0];
+        if (preferred) utterance.voice = preferred;
+      }
+      
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Modal Helpers
+    function showHindiModal(english, hindi) {
+      document.getElementById('modalOriginalEnglish').textContent = english;
+      document.getElementById('modalHindiMeaning').textContent = hindi;
+      document.getElementById('hindiModal').classList.remove('hidden');
+    }
+
+    function closeHindiModal() {
+      document.getElementById('hindiModal').classList.add('hidden');
+    }
+
+    // Add message to chat stream
+    function appendUserMessage(text, grammarFix = null) {
+      const stream = document.getElementById('chatStream');
+      const wrap = document.createElement('div');
+      wrap.className = 'flex items-start justify-end gap-3';
+      
+      let grammarHtml = '';
+      if (grammarFix) {
+        grammarHtml = `
+          <div class="mt-2.5 pt-2 border-t border-brand-400/20 text-xs">
+            <span class="inline-flex items-center gap-1 font-semibold text-amber-300">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14H8a4 4 0 01-2.383-7.218 4.02 4.02 0 014.766 0A4 4 0 0112 14z"/></svg>
+              Better way to say this:
+            </span>
+            <p class="text-white font-medium mt-0.5">"${grammarFix.better}"</p>
+            <p class="text-brand-200/80 text-[11px] mt-0.5">${grammarFix.note}</p>
+          </div>
+        `;
+      }
+      
+      wrap.innerHTML = `
+        <div class="flex-1 max-w-[85%] flex flex-col items-end">
+          <div class="bg-gradient-to-tr from-brand-700 to-indigo-600 text-white rounded-2xl rounded-tr-sm p-3.5 text-sm shadow-md leading-relaxed">
+            <p class="text-slate-100">${escapeHtml(text)}</p>
+            ${grammarHtml}
+          </div>
+          <span class="text-[10px] text-slate-500 mt-1 mr-1">You • Spoken / Sent</span>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-slate-300 shrink-0 text-xs font-bold">
+          U
+        </div>
+      `;
+      stream.appendChild(wrap);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function appendTutorMessage(text, hindiTranslation = '', suggestions = []) {
+      const stream = document.getElementById('chatStream');
+      const wrap = document.createElement('div');
+      wrap.className = 'flex items-start gap-3';
+      
+      const safeText = escapeHtml(text);
+      const safeHindi = escapeHtml(hindiTranslation);
+      
+      wrap.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white shrink-0 shadow-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="flex-1 max-w-[85%]">
+          <div class="bg-slate-850 border border-white/10 rounded-2xl rounded-tl-sm p-4 text-sm text-slate-200 shadow-sm leading-relaxed">
+            <p class="font-semibold text-brand-300 mb-1 flex items-center justify-between">
+              <span>Ritvi • AI Coach</span>
+              <span class="text-[10px] text-slate-400 font-normal">Active Tutor</span>
+            </p>
+            <p class="tutor-text">${safeText}</p>
+            
+            <div class="mt-3 pt-2.5 border-t border-white/10 flex items-center gap-3 text-xs">
+              <button class="listen-action-btn flex items-center gap-1 text-slate-400 hover:text-brand-300 transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Listen</span>
+              </button>
+              ${safeHindi ? `
+                <button class="hindi-action-btn flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/></svg>
+                  <span>Hindi Meaning</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Wire buttons
+      const listenBtn = wrap.querySelector('.listen-action-btn');
+      if (listenBtn) {
+        listenBtn.addEventListener('click', () => playText(text));
+      }
+      const hindiBtn = wrap.querySelector('.hindi-action-btn');
+      if (hindiBtn) {
+        hindiBtn.addEventListener('click', () => showHindiModal(text, safeHindi));
+      }
+
+      stream.appendChild(wrap);
+      stream.scrollTop = stream.scrollHeight;
+
+      // Update suggestion chips
+      if (suggestions && suggestions.length > 0) {
+        renderSuggestionChips(suggestions);
+      }
+
+      // Auto speak if enabled
+      if (AppState.autoSpeak) {
+        playText(text);
+      }
+    }
+
+    function renderSuggestionChips(chips) {
+      const container = document.getElementById('hintChipsContainer');
+      container.innerHTML = '';
+      chips.forEach(phrase => {
+        const btn = document.createElement('button');
+        btn.className = 'hint-chip text-xs bg-slate-800/90 hover:bg-brand-600/30 hover:border-brand-500/50 text-slate-300 hover:text-white px-3 py-1 rounded-full border border-white/10 transition shrink-0 whitespace-nowrap';
+        btn.textContent = `"${phrase}"`;
+        btn.addEventListener('click', () => {
+          document.getElementById('chatInput').value = phrase;
+          handleSend();
+        });
+        container.appendChild(btn);
+      });
+    }
+
+    function escapeHtml(string) {
+      const entityMap = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      };
+      return String(string).replace(/[&<>"']/g, s => entityMap[s]);
+    }
+
+    // Call Gemini API or fallback to Smart Scenario Engine
+    async function getCoachResponse(userText) {
+      if (AppState.apiKey && AppState.apiKey.trim() !== '') {
+        try {
+          const prompt = `You are Ritvi, an elite, warm Spoken English coach on a mobile app (comparable to PW Talk and ELSA Speak).
+The student is speaking to you in English.
+Learner Level: ${AppState.level}
+Scenario: ${AppState.scenario} (${Scenarios[AppState.scenario].title})
+
+Analyze what the student said: "${userText}"
+
+Produce a strict JSON response with this exact structure:
+{
+  "tutor_reply": "A concise, conversational 1-2 sentence English response that acknowledges their input and leads with an engaging follow-up question.",
+  "hindi_translation": "Natural Hindi translation of your tutor_reply.",
+  "grammar_fix": {
+    "has_error": true or false,
+    "better": "Natural, grammatically polished phrasing of student's sentence (or empty string if student had no error)",
+    "note": "A warm 1-sentence note in simple English/Hindi explaining the improvement (or empty string)"
+  },
+  "suggestions": [
+    "Suggested student reply option 1",
+    "Suggested student reply option 2",
+    "Suggested student reply option 3"
+  ]
+}
+Return only JSON without markdown code fences.`;
+
+          const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${AppState.apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { temperature: 0.7, maxOutputTokens: 600 }
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Gemini API error: ${response.status}`);
+          }
+
+          const data = await response.json();
+          let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          rawText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(rawText);
+          return parsed;
+        } catch (err) {
+          console.warn('API call failed, falling back to smart simulated tutor:', err);
+          showToast('Using offline smart tutor simulation.', 'info');
+        }
+      }
+
+      // Smart Simulated Tutor Engine (Runs 100% Free even without API key)
+      await new Promise(r => setTimeout(r, 650));
+      return generateSimulatedResponse(userText, AppState.scenario);
+    }
+
+    function generateSimulatedResponse(text, scenario) {
+      const lower = text.toLowerCase();
+      let grammar = null;
+      
+      // Basic rule check for demonstration
+      if (lower.includes('i am go') || lower.includes('i go to yesterday') || lower.includes('he do not')) {
+        grammar = {
+          has_error: true,
+          better: lower.replace('i am go', 'I am going').replace('i go to yesterday', 'I went yesterday').replace('he do not', 'he does not'),
+          note: 'Pay attention to verb tenses (भूतकाल और वर्तमान काल के नियमों का ध्यान रखें).'
+        };
+      }
+
+      if (scenario === 'interview') {
+        return {
+          tutor_reply: "That sounds very promising! What would you say is your greatest professional strength in a team setting?",
+          hindi_translation: "यह बहुत आशाजनक लग रहा है! किसी टीम में काम करते समय आप अपनी सबसे बड़ी ताकत किसे मानते हैं?",
+          grammar_fix: grammar,
+          suggestions: [
+            "My strength is clear communication with colleagues.",
+            "I am very adaptable and learn new tools quickly.",
+            "I enjoy solving difficult problems under pressure."
+          ]
+        };
+      } else if (scenario === 'cafe') {
+        return {
+          tutor_reply: "Great choice! Would you like that hot or iced, and what size can I get for you?",
+          hindi_translation: "बढ़िया चुनाव! आप इसे गरम लेना चाहेंगे या ठंडा, और कौन सा साइज़ चाहिए?",
+          grammar_fix: grammar,
+          suggestions: [
+            "I'd like a medium iced one, please.",
+            "Make it a large hot cup with oat milk.",
+            "Regular size is fine, thank you."
+          ]
+        };
+      } else if (scenario === 'office') {
+        return {
+          tutor_reply: "Thanks for sharing that update. Do you anticipate any blockers that could delay the delivery date?",
+          hindi_translation: "अपडेट देने के लिए शुक्रिया। क्या आपको किसी ऐसी रुकावट की आशंका है जो डिलीवरी में देरी कर सकती है?",
+          grammar_fix: grammar,
+          suggestions: [
+            "No blockers right now, we are on schedule.",
+            "We might need approval from the design team first.",
+            "I will update you if anything comes up."
+          ]
+        };
+      } else if (scenario === 'travel') {
+        return {
+          tutor_reply: "Understood. Have you already booked your accommodation, and how many bags are you checking in?",
+          hindi_translation: "समझ गया। क्या आपने ठहरने की जगह पहले से बुक कर ली है, और कितने बैग चेक-इन कर रहे हैं?",
+          grammar_fix: grammar,
+          suggestions: [
+            "Yes, I have a hotel reservation and two bags.",
+            "Just this carry-on backpack with me.",
+            "I am staying with my friend in the city."
+          ]
+        };
+      } else {
+        return {
+          tutor_reply: "That sounds really interesting! Tell me more about what you enjoy doing in your free time.",
+          hindi_translation: "यह बहुत दिलचस्प लग रहा है! मुझे और बताएं कि खाली समय में आपको क्या करना पसंद है।",
+          grammar_fix: grammar,
+          suggestions: [
+            "I love reading books and listening to podcasts.",
+            "I usually play cricket with my friends.",
+            "I enjoy learning new languages and coding."
+          ]
+        };
+      }
+    }
+
+    // Message Sending Flow
+    async function handleSend() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+      
+      input.value = '';
+      
+      // Temporary loading indicator
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+      sendBtn.classList.add('opacity-50');
+
+      try {
+        const coachResult = await getCoachResponse(text);
+        
+        // Append user message with grammar review
+        appendUserMessage(text, coachResult.grammar_fix?.has_error ? coachResult.grammar_fix : null);
+        
+        // Append coach response
+        appendTutorMessage(
+          coachResult.tutor_reply,
+          coachResult.hindi_translation,
+          coachResult.suggestions
+        );
+      } catch (err) {
+        showToast('Could not process message. Please try again.', 'error');
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('opacity-50');
+      }
+    }
+
+    // Speech Recognition Setup (Web Speech API)
+    let recognition = null;
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        return null;
+      }
+      const rec = new SpeechRecognition();
+      rec.continuous = false;
+      rec.interimResults = true;
+      rec.lang = 'en-US';
+
+      rec.onstart = () => {
+        AppState.isListening = true;
+        document.getElementById('listeningIndicator').classList.remove('hidden');
+        document.getElementById('micIconReady').classList.add('hidden');
+        document.getElementById('micIconActive').classList.remove('hidden');
+        document.getElementById('micRing').classList.add('opacity-40');
+      };
+
+      rec.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          transcript += event.results[i][0].transcript;
+        }
+        document.getElementById('speechInterimText').textContent = transcript;
+        document.getElementById('chatInput').value = transcript;
+      };
+
+      rec.onerror = (event) => {
+        console.warn('Speech recognition error:', event.error);
+        stopListening();
+        if (event.error === 'not-allowed') {
+          showToast('Microphone access denied. Please allow mic in browser settings.', 'error');
+        }
+      };
+
+      rec.onend = () => {
+        stopListening();
+        const currentText = document.getElementById('chatInput').value.trim();
+        if (currentText) {
+          handleSend();
+        }
+      };
+
+      return rec;
+    }
+
+    function startListening() {
+      if (!recognition) {
+        recognition = initSpeechRecognition();
+      }
+      if (!recognition) {
+        showToast('Speech recognition not supported in this browser. Please type below.', 'error');
+        return;
+      }
+      try {
+        recognition.lang = AppState.accent || 'en-US';
+        recognition.start();
+      } catch (e) {
+        console.warn('Recognition already started:', e);
+      }
+    }
+
+    function stopListening() {
+      AppState.isListening = false;
+      document.getElementById('listeningIndicator').classList.add('hidden');
+      document.getElementById('micIconReady').classList.remove('hidden');
+      document.getElementById('micIconActive').classList.add('hidden');
+      document.getElementById('micRing').classList.remove('opacity-40');
+      if (recognition) {
+        try { recognition.stop(); } catch (e) {}
+      }
+    }
+
+    // Switch Scenario
+    function setScenario(scKey) {
+      if (!Scenarios[scKey]) return;
+      AppState.scenario = scKey;
+      
+      // Update UI active buttons
+      document.querySelectorAll('.scenario-pill').forEach(btn => {
+        if (btn.getAttribute('data-scenario') === scKey) {
+          btn.className = 'scenario-pill active-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-brand-600 text-white shadow-sm shadow-brand-500/20';
+        } else {
+          btn.className = 'scenario-pill px-3 py-1.5 rounded-full text-xs font-medium shrink-0 flex items-center gap-1.5 bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition';
+        }
+      });
+
+      const sc = Scenarios[scKey];
+      document.getElementById('activeScenarioLabel').textContent = sc.title;
+      
+      // Tutor greeting change
+      appendTutorMessage(sc.lead, sc.hindi, sc.suggestions);
+      showToast(`Switched to ${sc.title} mode`, 'success');
+    }
+
+    // Initialize Event Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedSettings();
+
+      // Send Button & Enter Key
+      document.getElementById('sendBtn').addEventListener('click', handleSend);
+      document.getElementById('chatInput').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          handleSend();
+        }
+      });
+
+      // Mic Button
+      document.getElementById('micBtn').addEventListener('click', () => {
+        if (AppState.isListening) {
+          stopListening();
+        } else {
+          startListening();
+        }
+      });
+
+      document.getElementById('cancelRecordBtn').addEventListener('click', stopListening);
+
+      // Audio Toggle Button
+      document.getElementById('toggleAudioBtn').addEventListener('click', () => {
+        AppState.autoSpeak = !AppState.autoSpeak;
+        if (AppState.autoSpeak) {
+          document.getElementById('audioIconOn').classList.remove('hidden');
+          document.getElementById('audioIconOff').classList.add('hidden');
+          showToast('AI Auto-Speech Enabled', 'success');
+        } else {
+          document.getElementById('audioIconOn').classList.add('hidden');
+          document.getElementById('audioIconOff').classList.remove('hidden');
+          window.speechSynthesis.cancel();
+          showToast('AI Auto-Speech Muted', 'info');
+        }
+      });
+
+      // Speed Selector
+      document.getElementById('speedSelect').addEventListener('change', (e) => {
+        AppState.speechSpeed = parseFloat(e.target.value);
+        try { localStorage.setItem('talkflow_speed', e.target.value); } catch (_) {}
+        showToast(`Speech speed set to ${e.target.value}x`);
+      });
+
+      // Scenario Pills
+      document.querySelectorAll('.scenario-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const sc = btn.getAttribute('data-scenario');
+          setScenario(sc);
+        });
+      });
+
+      // Settings Modal Open/Close
+      const settingsModal = document.getElementById('settingsModal');
+      document.getElementById('openSettingsBtn').addEventListener('click', () => {
+        settingsModal.classList.remove('hidden');
+      });
+      document.getElementById('closeSettingsBtn').addEventListener('click', () => {
+        settingsModal.classList.add('hidden');
+      });
+
+      // Save Settings Action
+      document.getElementById('saveSettingsBtn').addEventListener('click', () => {
+        const key = document.getElementById('geminiApiKey').value.trim();
+        const lvl = document.getElementById('learnerLevelSelect').value;
+        const acc = document.getElementById('voiceAccentSelect').value;
+
+        AppState.apiKey = key;
+        AppState.level = lvl;
+        AppState.accent = acc;
+
+        try {
+          localStorage.setItem('talkflow_gemini_key', key);
+          localStorage.setItem('talkflow_level', lvl);
+          localStorage.setItem('talkflow_accent', acc);
+        } catch (_) {}
+
+        document.getElementById('activeLevelLabel').textContent = lvl;
+        settingsModal.classList.add('hidden');
+        showToast('Settings saved successfully!', 'success');
+      });
+
+      // Reset Chat
+      document.getElementById('resetChatBtn').addEventListener('click', () => {
+        const stream = document.getElementById('chatStream');
+        stream.innerHTML = '';
+        setScenario(AppState.scenario);
+        settingsModal.classList.add('hidden');
+        showToast('Chat history cleared', 'info');
+      });
+
+      // Hindi Modal Close
+      document.getElementById('closeHindiModalBtn').addEventListener('click', closeHindiModal);
+      document.getElementById('hindiModalCloseAction').addEventListener('click', closeHindiModal);
+
+      // Wire initial hint chips
+      document.querySelectorAll('.hint-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.getElementById('chatInput').value = chip.textContent.replace(/"/g, '').trim();
+          handleSend();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
